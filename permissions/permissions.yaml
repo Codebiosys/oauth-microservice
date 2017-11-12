@@ -1,0 +1,27 @@
+# Groups/Permissions Global Config Sample
+
+
+# Permissions
+# The configuration of the global system permissions.
+#
+permissions:
+  global_read: "Read all objects"
+  global_write: "Write all objects"
+  manager: "This user is allowed to create managed users"
+
+# Groups
+# The definition of the User Groups and their associated permissions.
+#
+groups:
+  read_only:
+    - global_read
+
+  admin:
+    - global_read
+    - global_write
+    - manager
+
+managed_users:
+  default_groups:
+    - read_only
+  default_permissions:

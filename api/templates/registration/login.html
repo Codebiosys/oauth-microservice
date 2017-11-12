@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block content %}
+<div class="text-center">
+  <div class="row justify-content-center">
+    <div class="col-md-4" style="border: 1px solid lightgrey; border-radius: 5px; padding:15px;">
+      <h3>Login</h3>
+      <form method="post" action="." class="text-muted">
+        {% csrf_token %}
+        {{ form.as_table }}
+        <input class="btn btn-dark" type="submit" value="{% trans 'Log in' %}" />
+        <input type="hidden" name="next" value="{{ next }}" />
+      </form>
+    </div>
+  </div>
+  <br />
+  <p>{% trans "Forgot password" %}? <a href="{% url 'password_reset' %}">{% trans "Reset it" %}</a>!</p>
+  {% if REGISTRATION_OPEN %}
+  <p>{% trans "Not member" %}? <a href="{% url 'registration_register' %}">{% trans "Register" %}</a>!</p>
+  {% endif %}
+</div>
+{% endblock %}

@@ -1,0 +1,3 @@
+[flake8]
+exclude=.git,__pycache__,manage.py,migrations
+max-line-length=100

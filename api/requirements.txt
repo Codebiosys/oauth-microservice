@@ -1,0 +1,8 @@
+Django==1.11.*
+django-oauth-toolkit==1.0.*
+djangorestframework==3.7.*
+psycopg2==2.7.3.*
+PyYAML==3.12
+django-registration== 2.*
+coreapi==2.3.*
+flake8

@@ -1,0 +1,15 @@
+# Global Config
+language: python
+sudo: required
+
+services:
+  - docker
+
+# Testing Config
+
+jobs:
+  include:
+    - stage: "API"
+      script:
+        - docker-compose -f docker-compose.yaml -f docker-compose.ci.yml run --rm api flake8
+        - docker-compose -f docker-compose.yaml -f docker-compose.ci.yml run --rm api ./manage.py test

@@ -1,0 +1,20 @@
+# Sample Users Config
+#
+# username:
+#    first_name: Full Name
+#    email: email@address.com
+#    password: a_passw0rd
+#    groups:
+#        # This list must only contain keys from the permissions.yml.
+#        - editor
+
+
+root:
+    first_name: Admin
+    last_name: "Mr. Root"
+    email: root@localhost
+    password: test_root
+    is_superuser: true
+    is_staff: true
+    groups:
+        - admin

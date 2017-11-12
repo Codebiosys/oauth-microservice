@@ -1,0 +1,102 @@
+#
+# Docker Compose file for quickly setting up a development environment and tools
+#
+
+version: "3"
+
+services:
+
+  #
+  # Use NGINX to unity all services into a development suite
+  # Reverse proxy application and mount generated content as static resource
+  #
+  www:
+    build: ./www
+    ports:
+      - "80:80"
+    depends_on:
+      - api
+    volumes:
+      - ./api/coverage:/var/www/public/sys/api-coverage
+      - ./api/staticfiles:/var/www/public/static
+
+  #
+  # Django API service
+  #
+  api:
+    build: ./api
+    restart: always
+    ports:
+      - "8000:8000"
+    environment:
+      - CLIENT_ID=a-secret-client-id
+      - SECRET_KEY=secret
+      - DATABASE_NAME=postgres
+      - DB_HOST=db
+      - DB_DATABASE=mrs
+      - DB_USERNAME=mrs
+      - DB_PASSWORD=T3Cb10MRS
+      - DB_PORT=5432
+      - ENVIRONMENT=dev
+      - SAMPLE_USERS_PATH=/app/permissions/sample_users.yml
+      - PERMISSIONS_PATH=/app/permissions/permissions.yaml
+      - FORCE_SCRIPT_NAME=/
+      - EMAIL_HOST=mail
+      - EMAIL_PORT=1025
+      - EMAIL_HOST_USER=test_user@localhost
+      - EMAIL_HOST_PASSWORD=s00per_secret
+      - ENABLE_REMOTE_USER_MANAGEMENT=true
+      - MANAGING_USER_PERMISSION=manager
+
+      # Sample Template Overrides
+      # - EXTERNAL_TEMPLATES=/opt/templates
+
+    depends_on:
+      - db
+    volumes:
+      - ./api:/app
+      - ./api/staticfiles:/app/staticfiles
+      - ./permissions:/app/permissions
+      # Sample Template Overrides
+      # - ./templates:/opt/templates
+
+  #
+  # Data persistence service
+  #
+  db:
+    build: ./db
+    restart: always
+    expose:
+      - "5432"
+    environment:
+      - POSTGRES_DB=mrs
+      - POSTGRES_USER=mrs
+      - POSTGRES_PASSWORD=T3Cb10MRS
+    volumes:
+      - postgres:/var/lib/postgresql/data/
+
+  #
+  # Data persistence for integration testing
+  #
+  db-tests:
+    build:
+      context: ./db
+      dockerfile: Dockerfile-tests
+    restart: always
+    environment:
+      - POSTGRES_USER=test
+      - POSTGRES_DB=test
+      - POSTGRES_PASSWORD=test
+    ports:
+      - "6543:5432"
+    tmpfs: /var/lib/postgres/data
+
+  mail:
+    image: mailhog/mailhog
+    ports:
+      - "1025:1025"
+      - "8025:8025"
+
+volumes:
+  files:
+  postgres:

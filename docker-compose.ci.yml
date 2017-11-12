@@ -1,0 +1,16 @@
+#
+# Docker Compose settings for Continuous Integration
+#
+# Note: Do not port-forward, otherwise you will interfere with Travis's
+# default exposed ports.
+#
+
+version: "3"
+
+services:
+
+  api:
+    restart: "no"
+
+  db:
+    restart: "no"

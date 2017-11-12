@@ -1,0 +1,75 @@
+{% load i18n %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" href="{{ STATIC_URL }}style.css" />
+    <style>
+      /* Custom page CSS
+      -------------------------------------------------- */
+      /* Not required for template or sticky footer method. */
+
+      body > .container {
+        padding: 60px 15px 0;
+      }
+
+      .footer > .container {
+        padding-right: 15px;
+        padding-left: 15px;
+      }
+
+      code {
+        font-size: 80%;
+      }
+      input {
+        display:block;
+      }
+      #id_username, #id_password {
+        margin-right:auto;
+        margin-left:auto;
+        margin-bottom: 15px;
+      }
+    </style>
+    <title>{% block title %}User test{% endblock %}</title>
+</head>
+<body>
+    <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
+      <a class="navbar-brand" href="/">OAuth Microservice</a>
+    </nav>
+    <div id="header" class="container-fluid">
+    {% block header %}
+
+    {% if user.is_authenticated %}
+        {% trans "Logged in" %}: {{ user.username }}
+        (<a href="{% url 'logout' %}">{% trans "Log out" %}</a> |
+        <a href="{% url 'password_change' %}">{% trans "Change password" %}</a>)
+    {% else %}
+       <a href="{% url 'login' %}">{% trans "Log in" %}</a>
+    {% endif %}
+    <hr />
+    {% endblock %}
+    </div>
+
+    <div id="content" role="main" class="container">
+    {% block content %}{% endblock %}
+    </div>
+
+    <div id="footer">
+    {% block footer %}
+        <hr />
+        <div class="row justify-content-center">
+          <div class="text-center text-muted col-md-7">
+            <p>
+              These templates are not designed to be used beyond the scope of development.
+              <br />
+              Override these templates by setting the <code>EXTERNAL_TEMPLATES</code>
+              environment variable, or overriding the corresponding value in your Django `settings.py` to point to your templates.
+            </p>
+          </div>
+        </div>
+    {% endblock %}
+    </div>
+</body>
+
+</html>
