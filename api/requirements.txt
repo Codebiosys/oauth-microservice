@@ -1,4 +1,4 @@
-Django==1.11.*
+django==1.11.*,>=1.11.15
 django-oauth-toolkit==1.0.*
 djangorestframework==3.7.*
 psycopg2==2.7.3.*
